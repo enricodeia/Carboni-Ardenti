@@ -11,7 +11,7 @@ const AboutSection = () => {
       <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#CC4140]/5 rounded-full blur-3xl"></div>
       <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#CC4140]/5 rounded-full blur-3xl"></div>
       
-      <div className="container">
+      <div className="container" style={{ maxWidth: '60vw' }}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="order-2 lg:order-1 relative z-10">
             <span className="text-[#CC4140] uppercase tracking-wider font-medium mb-2 block">Dal 2010</span>
@@ -61,15 +61,6 @@ const AboutSection = () => {
               {/* Decorative elements */}
               <div className="absolute -top-4 -right-4 w-24 h-24 border-t-2 border-r-2 border-[#CC4140]/30 z-0"></div>
               <div className="absolute -bottom-4 -left-4 w-24 h-24 border-b-2 border-l-2 border-[#CC4140]/30 z-0"></div>
-              
-              {/* Small decorative image */}
-              <div className="absolute -bottom-10 -right-10 z-20 hidden lg:block">
-                <img 
-                  src="https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" 
-                  alt="Carne alla brace" 
-                  className="w-32 h-32 object-cover rounded-lg shadow-xl border-4 border-charcoal-800"
-                />
-              </div>
             </div>
           </div>
         </div>
