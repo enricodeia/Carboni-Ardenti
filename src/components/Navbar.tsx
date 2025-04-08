@@ -21,6 +21,9 @@ const Navbar = () => {
 
     // Add event listener
     window.addEventListener('scroll', handleScroll);
+    
+    // Force initial calculation
+    handleScroll();
 
     // Cleanup
     return () => {
@@ -34,14 +37,14 @@ const Navbar = () => {
   }, [location.pathname]);
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-lg ${scrolled ? 'bg-charcoal-900/95 py-6 shadow-lg' : 'bg-charcoal-900/80 py-8'}`}>
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-lg ${scrolled ? 'bg-charcoal-900/95 py-8 shadow-lg' : 'bg-charcoal-900/80 py-10'}`}>
       <div className="container flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center">
           <img 
             src="https://cdn.prod.website-files.com/61b74db330d7740923e4176b/67f58e1bc906500b3542c77c_Braceria.png" 
             alt="Carboni Ardenti Logo" 
-            className="h-14 md:h-16"
+            className="h-16 md:h-20"
           />
         </Link>
 
@@ -49,28 +52,28 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-10">
           <Link 
             to="/" 
-            className={`text-white hover:text-[#CC4140] transition-colors py-2 text-base font-medium relative group ${location.pathname === '/' ? 'text-[#CC4140]' : ''}`}
+            className={`text-white hover:text-[#CC4140] transition-colors py-2 text-lg font-medium relative group ${location.pathname === '/' ? 'text-[#CC4140]' : ''}`}
           >
             Home
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#CC4140] transition-all duration-300 group-hover:w-full"></span>
           </Link>
           <Link 
             to="/menu" 
-            className={`text-white hover:text-[#CC4140] transition-colors py-2 text-base font-medium relative group ${location.pathname === '/menu' ? 'text-[#CC4140]' : ''}`}
+            className={`text-white hover:text-[#CC4140] transition-colors py-2 text-lg font-medium relative group ${location.pathname === '/menu' ? 'text-[#CC4140]' : ''}`}
           >
             Menu
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#CC4140] transition-all duration-300 group-hover:w-full"></span>
           </Link>
           <Link 
             to="/about" 
-            className={`text-white hover:text-[#CC4140] transition-colors py-2 text-base font-medium relative group ${location.pathname === '/about' ? 'text-[#CC4140]' : ''}`}
+            className={`text-white hover:text-[#CC4140] transition-colors py-2 text-lg font-medium relative group ${location.pathname === '/about' ? 'text-[#CC4140]' : ''}`}
           >
             Chi Siamo
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#CC4140] transition-all duration-300 group-hover:w-full"></span>
           </Link>
           <Link 
             to="/contact" 
-            className={`text-white hover:text-[#CC4140] transition-colors py-2 text-base font-medium relative group ${location.pathname === '/contact' ? 'text-[#CC4140]' : ''}`}
+            className={`text-white hover:text-[#CC4140] transition-colors py-2 text-lg font-medium relative group ${location.pathname === '/contact' ? 'text-[#CC4140]' : ''}`}
           >
             Contatti
             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#CC4140] transition-all duration-300 group-hover:w-full"></span>
@@ -81,7 +84,7 @@ const Navbar = () => {
         <div className="hidden md:block">
           <a 
             href="tel:+393470671839" 
-            className="flex items-center gap-2 bg-[#CC4140] hover:bg-[#CC4140]/90 text-white px-5 py-3 rounded-md transition-all duration-300 relative overflow-hidden group"
+            className="flex items-center gap-2 bg-[#CC4140] hover:bg-[#CC4140]/90 text-white px-6 py-4 rounded-md transition-all duration-300 relative overflow-hidden group"
           >
             <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#CC4140]/0 via-white/20 to-[#CC4140]/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
             <Phone size={18} className="relative z-10" />

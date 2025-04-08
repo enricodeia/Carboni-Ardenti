@@ -120,11 +120,11 @@ const HomeHero = () => {
           </p>
           
           <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-5">
-            <Link to="/menu" className="btn bg-[#CC4140] text-white py-4 px-10 text-base font-medium rounded-md group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-[#CC4140]/20">
+            <Link to="/menu" className="btn bg-[#CC4140] text-white py-4 px-10 text-base font-medium rounded-md group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-[#CC4140]/20 transform hover:translate-y-[-3px]">
               <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#CC4140]/0 via-white/20 to-[#CC4140]/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
               <span className="relative z-10">Scopri il Menù</span>
             </Link>
-            <a href="tel:+393470671839" className="btn py-4 px-10 text-base flex items-center justify-center gap-2 border-2 border-[#CC4140] text-[#CC4140] rounded-md transition-all duration-300 relative overflow-hidden group hover:bg-[#CC4140]/5">
+            <a href="tel:+393470671839" className="btn py-4 px-10 text-base flex items-center justify-center gap-2 border-2 border-[#CC4140] text-[#CC4140] rounded-md transition-all duration-300 relative overflow-hidden group hover:bg-[#CC4140]/5 transform hover:translate-y-[-3px]">
               <span className="absolute inset-0 w-0 bg-[#CC4140]/10 group-hover:w-full transition-all duration-300 ease-out"></span>
               <Phone size={18} className="animate-pulse relative z-10" /> 
               <span className="relative z-10">Prenota un Tavolo</span>

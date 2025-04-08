@@ -9,6 +9,7 @@ interface Particle {
   opacity: number;
   rotation: number;
   rotationSpeed: number;
+  color: string; // Added color property
 }
 
 const AshParticles: React.FC = () => {
@@ -37,17 +38,24 @@ const AshParticles: React.FC = () => {
     // Create particles
     const createParticles = () => {
       const particles: Particle[] = [];
-      const particleCount = Math.floor(window.innerWidth / 10); // Adjust based on screen size
+      const particleCount = Math.floor(window.innerWidth / 20); // Reduced count for smaller particles
 
       for (let i = 0; i < particleCount; i++) {
+        // Determine if this particle will be red or gray (40% chance of red)
+        const isRed = Math.random() < 0.4;
+        const color = isRed ? 
+          `rgba(${200 + Math.random() * 55}, ${60 + Math.random() * 20}, ${60 + Math.random() * 20}, ${Math.random() * 0.5 + 0.2})` : 
+          `rgba(${200 + Math.random() * 55}, ${200 + Math.random() * 55}, ${200 + Math.random() * 55}, ${Math.random() * 0.5 + 0.1})`;
+        
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height * -1, // Start above the viewport
-          size: Math.random() * 4 + 1,
-          speed: Math.random() * 2 + 0.5,
-          opacity: Math.random() * 0.6 + 0.2,
+          size: Math.random() * 3 + 0.5, // Smaller sizes between 0.5 and 3.5
+          speed: Math.random() * 1.5 + 0.3, // Slightly slower for a softer fall
+          opacity: Math.random() * 0.5 + 0.1, // Lower opacity
           rotation: Math.random() * 360,
-          rotationSpeed: (Math.random() - 0.5) * 0.2
+          rotationSpeed: (Math.random() - 0.5) * 0.2,
+          color: color
         });
       }
 
@@ -65,10 +73,17 @@ const AshParticles: React.FC = () => {
         ctx.translate(particle.x, particle.y);
         ctx.rotate((particle.rotation * Math.PI) / 180);
         
-        // Draw ash particle
-        ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
+        // Draw ash particle with its color
+        ctx.fillStyle = particle.color;
         ctx.beginPath();
-        ctx.rect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
+        
+        // Randomly choose between circle and square for some variety
+        if (Math.random() > 0.7) {
+          ctx.rect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
+        } else {
+          ctx.arc(0, 0, particle.size / 2, 0, Math.PI * 2);
+        }
+        
         ctx.fill();
         
         ctx.restore();
