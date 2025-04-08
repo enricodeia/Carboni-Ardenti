@@ -19,31 +19,47 @@ const HomeHero = () => {
     // GSAP animations
     const tl = gsap.timeline();
     
-    // Hero title animation
-    tl.from(titleRef.current?.querySelectorAll('.title-line span'), {
+    // Background image subtle zoom
+    tl.from(imageRef.current, {
+      scale: 1.2,
+      duration: 2,
+      ease: "power2.out"
+    });
+    
+    // Hero title animation with letter stagger
+    const titleWords = titleRef.current?.querySelectorAll('.title-word');
+    tl.from(titleWords, {
       y: 100,
       opacity: 0,
       duration: 1,
-      stagger: 0.2,
+      stagger: 0.15,
       ease: "power3.out"
-    });
+    }, "-=1.5");
+    
+    // Special text highlight animation
+    const highlights = document.querySelectorAll('.text-highlight');
+    tl.from(highlights, {
+      color: "#ffffff",
+      duration: 1.5,
+      ease: "power2.inOut"
+    }, "-=0.8");
     
     // Subtitle animation
     tl.from(subtitleRef.current, {
-      y: 20,
+      y: 30,
       opacity: 0,
       duration: 0.8,
       ease: "power2.out"
-    }, "-=0.4");
+    }, "-=1");
     
-    // Buttons animation
+    // Buttons animation with stagger
     tl.from(buttonsRef.current?.children, {
-      y: 20,
+      y: 30,
       opacity: 0,
-      duration: 0.6,
-      stagger: 0.15,
-      ease: "power2.out"
-    }, "-=0.3");
+      duration: 0.8,
+      stagger: 0.2,
+      ease: "back.out(1.7)"
+    }, "-=0.6");
 
     // Parallax effect on scroll
     const handleScroll = () => {
@@ -80,39 +96,43 @@ const HomeHero = () => {
       
       <div className="container relative z-10">
         <div className="max-w-3xl overflow-visible">
-          <div ref={titleRef} className="overflow-visible">
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-7xl font-medium text-white leading-tight mb-6">
-              <div className="title-line overflow-hidden mb-2">
+          <div ref={titleRef} className="overflow-visible mb-6">
+            <h1 className="font-serif text-[6vw] md:text-[5.5vw] lg:text-[4.5vw] font-medium text-white leading-tight tracking-wide">
+              <div className="title-word overflow-hidden mb-2">
                 <span className="block">
-                  L'arte della <span className="text-[#CC4140]">brace</span>,
+                  L'arte della <span className="text-highlight text-[#CC4140]">brace</span>,
                 </span>
               </div>
-              <div className="title-line overflow-hidden">
+              <div className="title-word overflow-hidden">
                 <span className="block">
-                  la passione per la <span className="text-[#CC4140]">carne</span>
+                  la passione per la <span className="text-highlight text-[#CC4140]">carne</span>
                 </span>
               </div>
             </h1>
           </div>
           
-          <p ref={subtitleRef} className="text-lg md:text-xl text-slate-200 mb-8 max-w-2xl">
+          <p ref={subtitleRef} className="text-lg md:text-xl text-slate-200 mb-10 max-w-2xl leading-relaxed">
             Le migliori carni nostrane, italiane e internazionali, cucinate alla brace e condite con i migliori ingredienti della nostra terra.
           </p>
           
-          <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-4">
-            <Link to="/menu" className="btn bg-[#CC4140] hover:bg-[#CC4140]/90 text-white py-3 px-8 text-base font-medium rounded-md group transition-all duration-300 hover:shadow-lg hover:shadow-[#CC4140]/20">
+          <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-5">
+            <Link to="/menu" className="btn bg-[#CC4140] text-white py-3 px-8 text-base font-medium rounded-md group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-[#CC4140]/20">
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#CC4140]/0 via-white/20 to-[#CC4140]/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
               <span className="relative z-10">Scopri il Menù</span>
             </Link>
-            <a href="tel:+393470671839" className="btn btn-secondary py-3 px-8 text-base flex items-center justify-center gap-2 border border-[#CC4140] text-[#CC4140] rounded-md hover:bg-[#CC4140]/10 transition-all duration-300">
-              <Phone size={18} className="animate-pulse" /> Prenota un Tavolo
+            <a href="tel:+393470671839" className="btn py-3 px-8 text-base flex items-center justify-center gap-2 border-2 border-[#CC4140] text-[#CC4140] rounded-md transition-all duration-300 relative overflow-hidden group">
+              <span className="absolute inset-0 w-0 bg-[#CC4140]/10 group-hover:w-full transition-all duration-300 ease-out"></span>
+              <Phone size={18} className="animate-pulse relative z-10" /> 
+              <span className="relative z-10">Prenota un Tavolo</span>
             </a>
           </div>
         </div>
       </div>
       
       {/* Scroll down indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white flex flex-col items-center animate-bounce cursor-pointer" onClick={scrollToContent}>
-        <ChevronDown size={24} className="text-[#CC4140]" />
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white flex flex-col items-center cursor-pointer hover:scale-110 transition-transform duration-300" onClick={scrollToContent}>
+        <span className="text-sm font-medium mb-2 text-[#CC4140]">Scopri di più</span>
+        <ChevronDown size={24} className="text-[#CC4140] animate-bounce" />
       </div>
     </div>
   );

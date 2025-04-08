@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import MenuHero from '../components/MenuHero';
@@ -13,23 +13,33 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 const Menu = () => {
+  const sectionsRef = useRef<HTMLDivElement[]>([]);
+  
+  // Function to add elements to the sectionsRef array
+  const addToSectionsRef = (el: HTMLDivElement) => {
+    if (el && !sectionsRef.current.includes(el)) {
+      sectionsRef.current.push(el);
+    }
+  };
+
   // Set up GSAP animations for sections
   useEffect(() => {
-    // Get all sections
-    const sections = document.querySelectorAll('section');
-    
-    // Create animations for each section
-    sections.forEach((section) => {
+    // Create animations for each section in the ref array
+    sectionsRef.current.forEach((section, index) => {
+      // Stagger effect based on index
+      const delay = index * 0.2;
+      
       gsap.from(section, {
         scrollTrigger: {
           trigger: section,
-          start: "top 80%",
-          end: "bottom 20%",
+          start: "top 85%",
+          end: "bottom 15%",
           toggleActions: "play none none none"
         },
         opacity: 0,
         y: 50,
         duration: 1,
+        delay: delay,
         ease: "power3.out"
       });
     });
@@ -46,8 +56,12 @@ const Menu = () => {
       
       <main className="flex-grow pt-16">
         <MenuHero />
-        <MenuList />
-        <CTASection />
+        <div id="menu-list" ref={addToSectionsRef}>
+          <MenuList />
+        </div>
+        <div ref={addToSectionsRef}>
+          <CTASection />
+        </div>
       </main>
       
       <Footer />
