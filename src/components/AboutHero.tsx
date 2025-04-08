@@ -2,6 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
+import AshParticles from './AshParticles';
 
 const AboutHero = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -30,6 +31,9 @@ const AboutHero = () => {
 
   return (
     <div className="relative h-[40vh] min-h-[300px] flex items-center">
+      {/* Ash Particles Effect */}
+      <AshParticles />
+      
       {/* Background image with overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
@@ -40,7 +44,7 @@ const AboutHero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal-900/90 via-charcoal-900/70 to-charcoal-900"></div>
       </div>
       
-      <div className="container relative z-10 text-center">
+      <div className="container relative z-20 text-center">
         <motion.div 
           className="max-w-3xl mx-auto"
           initial={{ opacity: 0, y: 20 }}

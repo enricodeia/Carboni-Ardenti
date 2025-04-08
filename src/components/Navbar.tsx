@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone } from 'lucide-react';
-import { gsap } from 'gsap';
 import { useIsMobile } from '../hooks/use-mobile';
 
 const Navbar = () => {
@@ -23,15 +22,6 @@ const Navbar = () => {
     // Add event listener
     window.addEventListener('scroll', handleScroll);
 
-    // GSAP animation for the navbar
-    gsap.from(".navbar", { 
-      y: -100, 
-      opacity: 0, 
-      duration: 1, 
-      ease: "power3.out",
-      delay: 0.5
-    });
-
     // Cleanup
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -44,14 +34,14 @@ const Navbar = () => {
   }, [location.pathname]);
 
   return (
-    <nav className={`navbar fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-lg ${scrolled ? 'bg-charcoal-900/95 py-4 shadow-lg' : 'bg-charcoal-900/70 py-6'}`}>
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-lg ${scrolled ? 'bg-charcoal-900/95 py-6 shadow-lg' : 'bg-charcoal-900/80 py-8'}`}>
       <div className="container flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center">
           <img 
             src="https://cdn.prod.website-files.com/61b74db330d7740923e4176b/67f58e1bc906500b3542c77c_Braceria.png" 
             alt="Carboni Ardenti Logo" 
-            className="h-12 md:h-14"
+            className="h-14 md:h-16"
           />
         </Link>
 

@@ -1,6 +1,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import AshParticles from './AshParticles';
 
 const MenuHero = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -47,6 +48,9 @@ const MenuHero = () => {
 
   return (
     <div className="relative h-[50vh] min-h-[400px] flex items-center overflow-hidden">
+      {/* Ash Particles Effect */}
+      <AshParticles />
+      
       {/* Background image with overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105" 
@@ -57,7 +61,7 @@ const MenuHero = () => {
         <div ref={overlayRef} className="absolute inset-0 bg-gradient-to-b from-charcoal-900/95 via-charcoal-900/80 to-charcoal-900"></div>
       </div>
       
-      <div className="container relative z-10 text-center">
+      <div className="container relative z-20 text-center">
         <div className="max-w-4xl mx-auto">
           <h1 ref={titleRef} className="font-serif text-[5vw] md:text-[4.5vw] lg:text-[4vw] font-medium text-white leading-tight mb-6 tracking-wide">
             Il Nostro <span className="text-[#CC4140]">{splitText("Menù")}</span>
@@ -66,7 +70,7 @@ const MenuHero = () => {
             Selezione delle migliori carni cotte alla brace, accompagnate da contorni freschi e vini pregiati
           </p>
           <div className="mt-8 flex justify-center">
-            <a href="#menu-list" className="btn bg-[#CC4140] text-white px-8 py-3 rounded-md group relative overflow-hidden">
+            <a href="#menu-list" className="btn bg-[#CC4140] text-white px-10 py-4 rounded-md group relative overflow-hidden hover:shadow-lg hover:shadow-[#CC4140]/20">
               <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#CC4140]/0 via-white/20 to-[#CC4140]/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
               <span className="relative z-10 font-medium">Scopri il Menù</span>
             </a>
