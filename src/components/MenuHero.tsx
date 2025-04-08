@@ -67,7 +67,7 @@ const MenuHero = () => {
       
       <div className="container relative z-20 text-center">
         <div className="max-w-4xl mx-auto">
-          <h1 ref={titleRef} className="font-serif text-[5vw] md:text-[4.5vw] lg:text-[4vw] font-medium text-white leading-tight mb-6 tracking-wide">
+          <h1 ref={titleRef} className="font-serif text-[13vw] md:text-[4.5vw] lg:text-[4vw] font-medium text-white leading-tight mb-6 tracking-wide">
             Il Nostro <span className="text-[#CC4140] staggered-text">Menù</span>
           </h1>
           <p ref={subtitleRef} className="text-lg md:text-xl lg:text-2xl text-slate-200 mb-8 max-w-2xl mx-auto leading-relaxed">

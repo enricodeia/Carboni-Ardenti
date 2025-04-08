@@ -48,14 +48,18 @@ const Footer = () => {
             <h4 className="font-serif text-xl text-white mb-4">Social</h4>
             <div className="flex gap-4">
               <a 
-                href="#" 
+                href="https://www.facebook.com/braceriacarboniardenti/" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-charcoal-700 hover:bg-ember-500 p-2 rounded-full transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook size={20} />
               </a>
               <a 
-                href="#" 
+                href="https://www.instagram.com/braceria_carboni_ardenti/" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-charcoal-700 hover:bg-ember-500 p-2 rounded-full transition-colors"
                 aria-label="Instagram"
               >
@@ -65,10 +69,20 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="divider"></div>
+        <div className="mt-10 pt-6 border-t border-charcoal-700"></div>
         
         <div className="text-center text-slate-400 text-sm">
           <p>© {new Date().getFullYear()} Braceria Carboni Ardenti. Tutti i diritti riservati.</p>
+          <p className="mt-2">
+            Designed by <a 
+              href="https://www.enricodeismalana.design/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-ember-400 hover:text-ember-500 transition-colors"
+            >
+              Enrico Deiana
+            </a>
+          </p>
         </div>
       </div>
     </footer>
