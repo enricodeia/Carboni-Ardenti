@@ -27,7 +27,7 @@ const HomeHero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal-900/80 via-charcoal-900/70 to-charcoal-900"></div>
       </div>
       
-      <div className="container" style={{ maxWidth: '60vw' }}>
+      <div className="container relative z-20">
         <div className="max-w-[55vw] overflow-visible">
           <div ref={titleRef} className="mb-6">
             <h1 className="font-serif text-[6vw] md:text-[5.5vw] lg:text-[4.5vw] font-medium text-white leading-tight tracking-wide">
@@ -49,7 +49,7 @@ const HomeHero = () => {
             <div className="flex flex-col sm:flex-row gap-6 mt-6 sm:mt-0 sm:ml-8">
               {/* TripAdvisor Rating */}
               <div className="flex items-center gap-2">
-                <div className="p-2 bg-white/10 rounded-md flex justify-center items-center backdrop-blur-sm">
+                <div className="p-1 rounded-md flex justify-center items-center bg-transparent">
                   <img 
                     src="https://scontent-fco2-1.xx.fbcdn.net/v/t39.30808-1/300636569_596916118499317_1099500544584127960_n.png?stp=dst-png_s480x480&_nc_cat=100&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=ASuMT1cDxewQ7kNvwFYvf8I&_nc_oc=AdmI8guaWV16DtPxXPrXx2uATRblBk-s7zJ0I-PqrCCTln8EXcrWy7tYqDNwjFAtrX4&_nc_zt=24&_nc_ht=scontent-fco2-1.xx&_nc_gid=sMc5gtwk1AD2TfNAi-9CyQ&oh=00_AfEs9ADdd0GlBE9RNnf2EAIbkoyjqvHk_TU4bRamMQEJww&oe=67FB5EA0" 
                     alt="TripAdvisor Logo" 
