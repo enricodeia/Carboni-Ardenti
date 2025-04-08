@@ -4,7 +4,6 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import MenuHero from '../components/MenuHero';
 import MenuList from '../components/MenuList';
-import CTASection from '../components/CTASection';
 import ScrollToTop from '../components/ScrollToTop';
 
 const Menu = () => {
@@ -16,9 +15,6 @@ const Menu = () => {
         <MenuHero />
         <div id="menu-list">
           <MenuList />
-        </div>
-        <div>
-          <CTASection />
         </div>
       </main>
       

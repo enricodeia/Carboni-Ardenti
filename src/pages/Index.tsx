@@ -6,7 +6,6 @@ import HomeHero from '../components/HomeHero';
 import AboutSection from '../components/AboutSection';
 import SpecialitiesSection from '../components/SpecialitiesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
-import CTASection from '../components/CTASection';
 import ScrollToTop from '../components/ScrollToTop';
 
 const Index = () => {
@@ -19,7 +18,6 @@ const Index = () => {
         <AboutSection />
         <SpecialitiesSection />
         <TestimonialsSection />
-        <CTASection />
       </main>
       
       <Footer />

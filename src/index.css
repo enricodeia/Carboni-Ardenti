@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -97,26 +98,10 @@ a, button, input, textarea, select, [role="button"] {
   }
 }
 
-/* Add image reveal animation */
-.image-reveal {
-  @apply relative overflow-hidden;
-}
-
-.image-reveal img {
-  @apply transition-all duration-700 ease-out scale-110;
-}
-
-.image-reveal:hover img {
-  @apply scale-100;
-}
-
-.image-reveal::after {
-  content: '';
-  @apply absolute inset-0 bg-[#CC4140] transform-gpu transition-transform duration-700 ease-out origin-left;
-}
-
-.image-reveal.loaded::after {
-  @apply -translate-x-full;
+/* Staggered character animation */
+.char {
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 /* Enhanced container */
@@ -124,23 +109,49 @@ a, button, input, textarea, select, [role="button"] {
   @apply px-4 md:px-6 lg:px-8 mx-auto max-w-7xl;
 }
 
-/* Enhanced buttons */
+/* Material Design Buttons */
 .btn {
-  @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden;
+  @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring disabled:pointer-events-none disabled:opacity-50;
+  position: relative;
+  overflow: hidden;
 }
 
-.btn::before {
+/* Ripple effect for buttons */
+.btn::after {
   content: '';
-  @apply absolute inset-0 opacity-0 transition-opacity duration-300;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%, -50%);
+  transform-origin: 50% 50%;
 }
 
-.btn:hover::before {
-  @apply opacity-100;
+.btn:focus:not(:active)::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
+  }
 }
 
 .btn-primary {
-  @apply bg-[#CC4140] text-white hover:bg-[#b33937] transition-all duration-300 relative;
+  @apply bg-[#CC4140] text-white hover:bg-[#b33937] transition-all duration-300;
 }
 
 .btn-secondary {
@@ -171,66 +182,6 @@ a, button, input, textarea, select, [role="button"] {
   @apply border-b border-charcoal-700 pb-6 mb-6 last:border-0 last:mb-0 last:pb-0 transition-all duration-300 hover:border-ember-400;
 }
 
-/* Add reveal animations */
-@keyframes reveal-text {
-  0% {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.reveal-text {
-  display: block;
-  overflow: hidden;
-}
-
-.reveal-text span {
-  display: block;
-  animation: reveal-text 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-  opacity: 0;
-}
-
-/* Staggered animations for children */
-.stagger-children > * {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.stagger-children.in-view > *:nth-child(1) {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.1s;
-}
-
-.stagger-children.in-view > *:nth-child(2) {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.2s;
-}
-
-.stagger-children.in-view > *:nth-child(3) {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.3s;
-}
-
-.stagger-children.in-view > *:nth-child(4) {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.4s;
-}
-
-.stagger-children.in-view > *:nth-child(5) {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.5s;
-}
-
 /* Page transitions */
 .page-transition-enter {
   opacity: 0;
@@ -252,4 +203,22 @@ a, button, input, textarea, select, [role="button"] {
   opacity: 0;
   transform: translateY(-20px);
   transition: opacity 400ms, transform 400ms;
+}
+
+/* Text reveal animation */
+@keyframes charReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title-word .char {
+  opacity: 0;
+  transform: translateY(20px);
+  display: inline-block;
 }

@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface Particle {
   x: number;
@@ -9,13 +9,17 @@ interface Particle {
   opacity: number;
   rotation: number;
   rotationSpeed: number;
-  color: string; // Added color property
+  color: string;
+  isRed: boolean;
+  originalSize: number;
 }
 
 const AshParticles: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const animationRef = useRef<number>(0);
+  const mouseRef = useRef<{ x: number, y: number, active: boolean }>({ x: 0, y: 0, active: false });
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -25,8 +29,11 @@ const AshParticles: React.FC = () => {
     if (!ctx) return;
 
     const setCanvasSize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      setDimensions({ width, height });
     };
 
     // Set initial canvas size
@@ -38,11 +45,12 @@ const AshParticles: React.FC = () => {
     // Create particles
     const createParticles = () => {
       const particles: Particle[] = [];
-      const particleCount = Math.floor(window.innerWidth / 20); // Reduced count for smaller particles
+      const particleCount = Math.floor(window.innerWidth / 15); // More particles for better interaction
 
       for (let i = 0; i < particleCount; i++) {
         // Determine if this particle will be red or gray (40% chance of red)
         const isRed = Math.random() < 0.4;
+        const baseSize = Math.random() * 2.5 + 0.5; // Smaller sizes between 0.5 and 3
         const color = isRed ? 
           `rgba(${200 + Math.random() * 55}, ${60 + Math.random() * 20}, ${60 + Math.random() * 20}, ${Math.random() * 0.5 + 0.2})` : 
           `rgba(${200 + Math.random() * 55}, ${200 + Math.random() * 55}, ${200 + Math.random() * 55}, ${Math.random() * 0.5 + 0.1})`;
@@ -50,12 +58,14 @@ const AshParticles: React.FC = () => {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height * -1, // Start above the viewport
-          size: Math.random() * 3 + 0.5, // Smaller sizes between 0.5 and 3.5
+          size: baseSize, // Current size
+          originalSize: baseSize, // Original size to return to
           speed: Math.random() * 1.5 + 0.3, // Slightly slower for a softer fall
           opacity: Math.random() * 0.5 + 0.1, // Lower opacity
           rotation: Math.random() * 360,
           rotationSpeed: (Math.random() - 0.5) * 0.2,
-          color: color
+          color: color,
+          isRed: isRed
         });
       }
 
@@ -64,11 +74,59 @@ const AshParticles: React.FC = () => {
 
     createParticles();
 
+    // Mouse move handler for particle interaction
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseRef.current = { 
+        x: e.clientX, 
+        y: e.clientY, 
+        active: true 
+      };
+    };
+
+    // Mouse leave handler
+    const handleMouseLeave = () => {
+      mouseRef.current.active = false;
+    };
+
+    // Add mouse event listeners
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
+
     // Animation loop
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       particlesRef.current.forEach((particle, index) => {
+        // Check if particle is close to mouse cursor (if mouse is active)
+        let distanceEffect = 0;
+        if (mouseRef.current.active) {
+          const dx = particle.x - mouseRef.current.x;
+          const dy = particle.y - mouseRef.current.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const interactionRadius = 150; // Mouse interaction radius
+          
+          if (distance < interactionRadius) {
+            distanceEffect = 1 - (distance / interactionRadius);
+            
+            // Increase size based on proximity to cursor
+            particle.size = particle.originalSize + (distanceEffect * 3);
+            
+            // Add glare/bloom effect (increase opacity temporarily)
+            ctx.shadowBlur = 15 * distanceEffect;
+            ctx.shadowColor = particle.isRed ? 'rgba(255,100,100,0.8)' : 'rgba(255,255,255,0.8)';
+            
+            // Slightly repel from cursor (subtle movement away)
+            particle.x += (dx / distance) * distanceEffect * 0.5;
+            particle.y += (dy / distance) * distanceEffect * 0.5;
+          } else {
+            particle.size = particle.originalSize;
+            ctx.shadowBlur = 0;
+          }
+        } else {
+          particle.size = particle.originalSize;
+          ctx.shadowBlur = 0;
+        }
+        
         ctx.save();
         ctx.translate(particle.x, particle.y);
         ctx.rotate((particle.rotation * Math.PI) / 180);
@@ -96,6 +154,7 @@ const AshParticles: React.FC = () => {
         if (particle.y > canvas.height) {
           particle.y = Math.random() * (canvas.height * -0.5);
           particle.x = Math.random() * canvas.width;
+          particle.size = particle.originalSize;
         }
         
         // Update particle in array
@@ -111,6 +170,8 @@ const AshParticles: React.FC = () => {
     return () => {
       cancelAnimationFrame(animationRef.current);
       window.removeEventListener('resize', setCanvasSize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, []);
 

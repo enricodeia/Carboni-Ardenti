@@ -24,6 +24,29 @@ const HomeHero = () => {
       ease: "power2.out"
     });
 
+    // Staggered text reveal animation for title
+    const titleWords = document.querySelectorAll('.title-word');
+    titleWords.forEach(word => {
+      const chars = word.textContent?.split('') || [];
+      word.textContent = '';
+      
+      chars.forEach(char => {
+        const span = document.createElement('span');
+        span.textContent = char;
+        span.className = 'char inline-block opacity-0';
+        word.appendChild(span);
+      });
+      
+      gsap.to(word.querySelectorAll('.char'), {
+        opacity: 1,
+        y: 0,
+        stagger: 0.03,
+        delay: 0.5,
+        ease: "power3.out",
+        duration: 0.5
+      });
+    });
+
     // Parallax effect on scroll
     const handleScroll = () => {
       if (imageRef.current) {
@@ -65,14 +88,10 @@ const HomeHero = () => {
           <div ref={titleRef} className="overflow-visible mb-6">
             <h1 className="font-serif text-[6vw] md:text-[5.5vw] lg:text-[4.5vw] font-medium text-white leading-tight tracking-wide">
               <div className="title-word overflow-hidden mb-2">
-                <span className="block">
-                  L'arte della <span className="text-highlight text-[#CC4140]">brace</span>,
-                </span>
+                L'arte della <span className="text-highlight text-[#CC4140]">brace</span>,
               </div>
               <div className="title-word overflow-hidden">
-                <span className="block">
-                  la passione per la <span className="text-highlight text-[#CC4140]">carne</span>
-                </span>
+                la passione per la <span className="text-highlight text-[#CC4140]">carne</span>
               </div>
             </h1>
           </div>
@@ -82,14 +101,12 @@ const HomeHero = () => {
           </p>
           
           <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-5">
-            <Link to="/menu" className="btn bg-[#CC4140] text-white py-4 px-10 text-base font-medium rounded-md group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-[#CC4140]/20 transform hover:translate-y-[-3px]">
-              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#CC4140]/0 via-white/20 to-[#CC4140]/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
-              <span className="relative z-10">Scopri il Menù</span>
+            <Link to="/menu" className="btn bg-[#CC4140] text-white py-4 px-10 text-base font-medium rounded-md transition-all duration-300 shadow-md hover:shadow-lg hover:bg-[#b33937] active:translate-y-0.5 active:shadow-inner">
+              Scopri il Menù
             </Link>
-            <a href="tel:+393470671839" className="btn py-4 px-10 text-base flex items-center justify-center gap-2 border-2 border-black bg-black text-white rounded-md transition-all duration-300 relative overflow-hidden group hover:bg-black/90 transform hover:translate-y-[-3px]">
-              <span className="absolute inset-0 w-0 bg-white/10 group-hover:w-full transition-all duration-300 ease-out"></span>
-              <Phone size={18} className="relative z-10" /> 
-              <span className="relative z-10">Prenota un Tavolo</span>
+            <a href="tel:+393470671839" className="btn py-4 px-10 text-base flex items-center justify-center gap-2 border-2 border-black bg-black text-white rounded-md transition-all duration-300 shadow-md hover:shadow-lg hover:bg-black/90 active:translate-y-0.5 active:shadow-inner">
+              <Phone size={18} /> 
+              <span>Prenota un Tavolo</span>
             </a>
           </div>
         </div>
