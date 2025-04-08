@@ -15,6 +15,9 @@ const AboutSection = () => {
               La braceria offre le migliori carni nostrane, italiane e internazionali, cucinate alla brace e condite con i migliori ingredienti della nostra terra. 
               Ampia offerta di vini, birre, bevande e dolci di produzione propria.
             </p>
+            <p className="text-slate-300 text-lg">
+              Il nostro obiettivo è quello di offrire ai nostri clienti un'esperienza culinaria unica, dove tradizione e innovazione si fondono per creare piatti indimenticabili.
+            </p>
           </div>
           
           <div className="order-1 lg:order-2">
