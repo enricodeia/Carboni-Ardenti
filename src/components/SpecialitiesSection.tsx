@@ -43,7 +43,8 @@ const SpecialitiesSection = () => {
           {specialities.map((item) => (
             <div 
               key={item.id} 
-              className="group bg-charcoal-800 rounded-lg overflow-hidden shadow-xl border border-charcoal-700 hover:border-[#CC4140]/50 transition-all duration-500"
+              className="group bg-charcoal-800 overflow-hidden shadow-xl border border-charcoal-700 hover:border-[#CC4140]/50 transition-all duration-500 rounded-3xl"
+              style={{ borderRadius: '2rem' }}
             >
               <div className="relative h-64 overflow-hidden">
                 <img 
