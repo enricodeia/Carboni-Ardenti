@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Phone, Clock, MapPin, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { Phone, Clock, MapPin, Facebook, Instagram } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -37,35 +37,9 @@ const Footer = () => {
             <h4 className="font-serif text-xl text-white mb-4">Orari</h4>
             <div className="flex items-start gap-2 text-slate-300">
               <Clock size={16} className="text-ember-400 mt-1" />
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="mr-4">Lunedì</span>
-                  <span>7:30–11 pm</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="mr-4">Martedì</span>
-                  <span>7:30–11 pm</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="mr-4">Mercoledì</span>
-                  <span className="text-ember-400">Chiuso</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="mr-4">Giovedì</span>
-                  <span>7:30–11 pm</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="mr-4">Venerdì</span>
-                  <span>7:30–11 pm</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="mr-4">Sabato</span>
-                  <span>7:30–11 pm</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="mr-4">Domenica</span>
-                  <span>7:30–11 pm</span>
-                </div>
+              <div>
+                <p>Lunedì - Domenica</p>
+                <p>Aperto fino alle 23:00</p>
               </div>
             </div>
           </div>
@@ -74,18 +48,14 @@ const Footer = () => {
             <h4 className="font-serif text-xl text-white mb-4">Social</h4>
             <div className="flex gap-4">
               <a 
-                href="https://www.facebook.com/braceriacarboniardenti/" 
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#" 
                 className="bg-charcoal-700 hover:bg-ember-500 p-2 rounded-full transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook size={20} />
               </a>
               <a 
-                href="https://www.instagram.com/braceria_carboni_ardenti/" 
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#" 
                 className="bg-charcoal-700 hover:bg-ember-500 p-2 rounded-full transition-colors"
                 aria-label="Instagram"
               >
@@ -99,16 +69,6 @@ const Footer = () => {
         
         <div className="text-center text-slate-400 text-sm">
           <p>© {new Date().getFullYear()} Braceria Carboni Ardenti. Tutti i diritti riservati.</p>
-          <p className="mt-2">
-            Designed by <a 
-              href="https://www.enricodeismalana.design/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-ember-400 hover:text-ember-500 transition-colors"
-            >
-              Enrico Deiana
-            </a>
-          </p>
         </div>
       </div>
     </footer>

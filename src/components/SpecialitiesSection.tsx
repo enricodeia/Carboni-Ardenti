@@ -32,7 +32,7 @@ const SpecialitiesSection = () => {
       <div className="absolute -top-20 -left-20 w-60 h-60 bg-[#CC4140]/5 rounded-full blur-3xl"></div>
       <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-[#CC4140]/5 rounded-full blur-3xl"></div>
       
-      <div className="container max-w-[70vw] relative z-10">
+      <div className="container relative z-10">
         <div className="text-center mb-16">
           <div>
             <h2 className="section-title mb-2 after:bg-[#CC4140] after:left-1/2 after:-translate-x-1/2">Le Nostre Specialità</h2>
@@ -43,8 +43,7 @@ const SpecialitiesSection = () => {
           {specialities.map((item) => (
             <div 
               key={item.id} 
-              className="group bg-charcoal-800 overflow-hidden shadow-xl border border-charcoal-700 hover:border-[#CC4140]/50 transition-all duration-500 rounded-3xl"
-              style={{ borderRadius: '2rem' }}
+              className="group bg-charcoal-800 rounded-lg overflow-hidden shadow-xl border border-charcoal-700 hover:border-[#CC4140]/50 transition-all duration-500"
             >
               <div className="relative h-64 overflow-hidden">
                 <img 

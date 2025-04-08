@@ -59,7 +59,7 @@ const MenuHero = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105" 
         style={{ 
-          backgroundImage: 'url(https://i.pinimg.com/736x/42/af/65/42af6530c3d37b93c8196869a089f67a.jpg)'
+          backgroundImage: 'url(https://i.pinimg.com/736x/f8/29/d5/f829d5065ed303e44b97979b4c885dc6.jpg)'
         }}
       >
         <div ref={overlayRef} className="absolute inset-0 bg-gradient-to-b from-charcoal-900/95 via-charcoal-900/80 to-charcoal-900"></div>
@@ -73,7 +73,11 @@ const MenuHero = () => {
           <p ref={subtitleRef} className="text-lg md:text-xl lg:text-2xl text-slate-200 mb-8 max-w-2xl mx-auto leading-relaxed">
             Selezione delle migliori carni cotte alla brace, accompagnate da contorni freschi e vini pregiati
           </p>
-          {/* Removed the "Scopri il Menù" button */}
+          <div className="mt-8 flex justify-center">
+            <a href="#menu-list" className="btn bg-[#CC4140] text-white px-10 py-4 rounded-md shadow-md hover:shadow-lg hover:bg-[#b33937] transition-all duration-300 active:translate-y-0.5 active:shadow-inner">
+              <span className="relative z-10 font-medium">Scopri il Menù</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
