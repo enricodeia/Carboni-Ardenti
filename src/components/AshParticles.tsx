@@ -14,67 +14,205 @@ interface Particle {
   originalSize: number;
 }
 
+interface MouseState {
+  x: number;
+  y: number;
+  active: boolean;
+}
+
 const AshParticles: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const animationRef = useRef<number>(0);
-  const mouseRef = useRef<{ x: number, y: number, active: boolean }>({ x: 0, y: 0, active: false });
+  const mouseRef = useRef<MouseState>({ x: 0, y: 0, active: false });
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
+  // Set canvas dimensions and handle window resize
+  const setCanvasSize = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    setDimensions({ width, height });
+  };
+
+  // Create a single particle with random properties
+  const createParticle = (): Particle => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      return {} as Particle;
+    }
+    
+    const isRed = Math.random() < 0.4;
+    const baseSize = Math.random() * 2 + 0.5;
+    const color = isRed ? 
+      `rgba(${200 + Math.random() * 55}, ${60 + Math.random() * 20}, ${60 + Math.random() * 20}, ${Math.random() * 0.5 + 0.2})` : 
+      `rgba(${200 + Math.random() * 55}, ${200 + Math.random() * 55}, ${200 + Math.random() * 55}, ${Math.random() * 0.5 + 0.1})`;
+    
+    return {
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height * -1,
+      size: baseSize,
+      originalSize: baseSize,
+      speed: Math.random() * 1.5 + 0.3,
+      opacity: Math.random() * 0.5 + 0.1,
+      rotation: Math.random() * 360,
+      rotationSpeed: (Math.random() - 0.5) * 0.2,
+      color: color,
+      isRed: isRed
+    };
+  };
+
+  // Initialize particles
+  const createParticles = () => {
+    const particleCount = Math.floor(window.innerWidth / 10);
+    const particles: Particle[] = [];
+    
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(createParticle());
+    }
+    
+    particlesRef.current = particles;
+  };
+
+  // Handle mouse interaction with particles
+  const handleMouseInteraction = (particle: Particle): Particle => {
+    const updatedParticle = { ...particle };
+    
+    if (mouseRef.current.active) {
+      const dx = particle.x - mouseRef.current.x;
+      const dy = particle.y - mouseRef.current.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const interactionRadius = 180;
+      
+      if (distance < interactionRadius) {
+        const distanceEffect = 1 - (distance / interactionRadius);
+        
+        // Increase size based on proximity to cursor
+        updatedParticle.size = particle.originalSize + (distanceEffect * 5);
+        
+        // Add repulsion from cursor
+        updatedParticle.x += (dx / distance) * distanceEffect * 1;
+        updatedParticle.y += (dy / distance) * distanceEffect * 1;
+        
+        return updatedParticle;
+      }
+    }
+    
+    updatedParticle.size = particle.originalSize;
+    return updatedParticle;
+  };
+
+  // Draw a single particle on the canvas
+  const drawParticle = (ctx: CanvasRenderingContext2D, particle: Particle) => {
+    ctx.save();
+    ctx.translate(particle.x, particle.y);
+    ctx.rotate((particle.rotation * Math.PI) / 180);
+    
+    // Set shadow/glow effect if close to mouse
+    if (mouseRef.current.active) {
+      const dx = particle.x - mouseRef.current.x;
+      const dy = particle.y - mouseRef.current.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const interactionRadius = 180;
+      
+      if (distance < interactionRadius) {
+        const distanceEffect = 1 - (distance / interactionRadius);
+        
+        // Add shadow blur effect
+        ctx.shadowBlur = 20 * distanceEffect;
+        ctx.shadowColor = particle.isRed ? 'rgba(255,100,100,0.9)' : 'rgba(255,255,255,0.9)';
+        
+        // Add glow effect
+        const glowRadius = particle.size * 2;
+        const gradient = ctx.createRadialGradient(
+          0, 0, 0,
+          0, 0, glowRadius
+        );
+        
+        const glowColor = particle.isRed ? 
+          'rgba(255,100,100,0.4)' : 
+          'rgba(255,255,255,0.3)';
+        
+        gradient.addColorStop(0, glowColor);
+        gradient.addColorStop(1, 'rgba(0,0,0,0)');
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(0, 0, glowRadius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    
+    // Draw ash particle with its color
+    ctx.fillStyle = particle.color;
+    ctx.beginPath();
+    
+    // Random shape (circle or square)
+    if (Math.random() > 0.7) {
+      ctx.rect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
+    } else {
+      ctx.arc(0, 0, particle.size / 2, 0, Math.PI * 2);
+    }
+    
+    ctx.fill();
+    ctx.restore();
+  };
+
+  // Update particle position and properties
+  const updateParticle = (particle: Particle, canvas: HTMLCanvasElement): Particle => {
+    const updatedParticle = { ...particle };
+    
+    // Update position
+    updatedParticle.y += particle.speed;
+    updatedParticle.rotation += particle.rotationSpeed;
+    
+    // Reset particle if it goes off screen
+    if (updatedParticle.y > canvas.height) {
+      updatedParticle.y = Math.random() * (canvas.height * -0.5);
+      updatedParticle.x = Math.random() * canvas.width;
+      updatedParticle.size = particle.originalSize;
+    }
+    
+    return updatedParticle;
+  };
+
+  // Animation loop for particles
+  const animate = () => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext('2d');
+    if (!canvas || !ctx) return;
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    particlesRef.current = particlesRef.current.map((particle, index) => {
+      // Apply mouse interaction
+      const interactedParticle = handleMouseInteraction(particle);
+      
+      // Draw the particle
+      drawParticle(ctx, interactedParticle);
+      
+      // Update particle position and return
+      return updateParticle(interactedParticle, canvas);
+    });
+    
+    animationRef.current = requestAnimationFrame(animate);
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const setCanvasSize = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
-      setDimensions({ width, height });
-    };
-
-    // Set initial canvas size
+    // Initialize canvas size
     setCanvasSize();
-
-    // Adjust canvas size on window resize
-    window.addEventListener('resize', setCanvasSize);
-
-    // Create particles
-    const createParticles = () => {
-      const particles: Particle[] = [];
-      const particleCount = Math.floor(window.innerWidth / 10); // More particles for better interaction
-
-      for (let i = 0; i < particleCount; i++) {
-        // Determine if this particle will be red or gray (40% chance of red)
-        const isRed = Math.random() < 0.4;
-        const baseSize = Math.random() * 2 + 0.5; // Smaller sizes between 0.5 and 2.5
-        const color = isRed ? 
-          `rgba(${200 + Math.random() * 55}, ${60 + Math.random() * 20}, ${60 + Math.random() * 20}, ${Math.random() * 0.5 + 0.2})` : 
-          `rgba(${200 + Math.random() * 55}, ${200 + Math.random() * 55}, ${200 + Math.random() * 55}, ${Math.random() * 0.5 + 0.1})`;
-        
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height * -1, // Start above the viewport
-          size: baseSize, // Current size
-          originalSize: baseSize, // Original size to return to
-          speed: Math.random() * 1.5 + 0.3, // Slightly slower for a softer fall
-          opacity: Math.random() * 0.5 + 0.1, // Lower opacity
-          rotation: Math.random() * 360,
-          rotationSpeed: (Math.random() - 0.5) * 0.2,
-          color: color,
-          isRed: isRed
-        });
-      }
-
-      particlesRef.current = particles;
-    };
-
+    
+    // Create initial particles
     createParticles();
-
-    // Mouse move handler for particle interaction
+    
+    // Mouse event handlers
     const handleMouseMove = (e: MouseEvent) => {
       mouseRef.current = { 
         x: e.clientX, 
@@ -83,109 +221,19 @@ const AshParticles: React.FC = () => {
       };
     };
 
-    // Mouse leave handler
     const handleMouseLeave = () => {
       mouseRef.current.active = false;
     };
-
-    // Add mouse event listeners
+    
+    // Add event listeners
+    window.addEventListener('resize', setCanvasSize);
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseleave', handleMouseLeave);
-
-    // Animation loop
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      particlesRef.current.forEach((particle, index) => {
-        // Check if particle is close to mouse cursor (if mouse is active)
-        let distanceEffect = 0;
-        if (mouseRef.current.active) {
-          const dx = particle.x - mouseRef.current.x;
-          const dy = particle.y - mouseRef.current.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          const interactionRadius = 180; // Increased mouse interaction radius
-          
-          if (distance < interactionRadius) {
-            distanceEffect = 1 - (distance / interactionRadius);
-            
-            // Increase size based on proximity to cursor (more pronounced)
-            particle.size = particle.originalSize + (distanceEffect * 5);
-            
-            // Add glare/bloom effect (increase opacity and shadow)
-            ctx.shadowBlur = 20 * distanceEffect;
-            ctx.shadowColor = particle.isRed ? 'rgba(255,100,100,0.9)' : 'rgba(255,255,255,0.9)';
-            
-            // More dramatic repulsion from cursor
-            particle.x += (dx / distance) * distanceEffect * 1;
-            particle.y += (dy / distance) * distanceEffect * 1;
-            
-            // Add glow effect
-            const glowRadius = particle.size * 2;
-            const gradient = ctx.createRadialGradient(
-              particle.x, particle.y, 0,
-              particle.x, particle.y, glowRadius
-            );
-            
-            const glowColor = particle.isRed ? 
-              'rgba(255,100,100,0.4)' : 
-              'rgba(255,255,255,0.3)';
-            
-            gradient.addColorStop(0, glowColor);
-            gradient.addColorStop(1, 'rgba(0,0,0,0)');
-            
-            ctx.fillStyle = gradient;
-            ctx.beginPath();
-            ctx.arc(particle.x, particle.y, glowRadius, 0, Math.PI * 2);
-            ctx.fill();
-          } else {
-            particle.size = particle.originalSize;
-            ctx.shadowBlur = 0;
-          }
-        } else {
-          particle.size = particle.originalSize;
-          ctx.shadowBlur = 0;
-        }
-        
-        ctx.save();
-        ctx.translate(particle.x, particle.y);
-        ctx.rotate((particle.rotation * Math.PI) / 180);
-        
-        // Draw ash particle with its color
-        ctx.fillStyle = particle.color;
-        ctx.beginPath();
-        
-        // Randomly choose between circle and square for some variety
-        if (Math.random() > 0.7) {
-          ctx.rect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
-        } else {
-          ctx.arc(0, 0, particle.size / 2, 0, Math.PI * 2);
-        }
-        
-        ctx.fill();
-        
-        ctx.restore();
-        
-        // Update particle position
-        particle.y += particle.speed;
-        particle.rotation += particle.rotationSpeed;
-        
-        // Reset particle if it goes off screen
-        if (particle.y > canvas.height) {
-          particle.y = Math.random() * (canvas.height * -0.5);
-          particle.x = Math.random() * canvas.width;
-          particle.size = particle.originalSize;
-        }
-        
-        // Update particle in array
-        particlesRef.current[index] = particle;
-      });
-      
-      animationRef.current = requestAnimationFrame(animate);
-    };
     
+    // Start animation
     animate();
     
-    // Cleanup on unmount
+    // Cleanup
     return () => {
       cancelAnimationFrame(animationRef.current);
       window.removeEventListener('resize', setCanvasSize);
