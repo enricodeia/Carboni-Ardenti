@@ -45,12 +45,12 @@ const AshParticles: React.FC = () => {
     // Create particles
     const createParticles = () => {
       const particles: Particle[] = [];
-      const particleCount = Math.floor(window.innerWidth / 15); // More particles for better interaction
+      const particleCount = Math.floor(window.innerWidth / 10); // More particles for better interaction
 
       for (let i = 0; i < particleCount; i++) {
         // Determine if this particle will be red or gray (40% chance of red)
         const isRed = Math.random() < 0.4;
-        const baseSize = Math.random() * 2.5 + 0.5; // Smaller sizes between 0.5 and 3
+        const baseSize = Math.random() * 2 + 0.5; // Smaller sizes between 0.5 and 2.5
         const color = isRed ? 
           `rgba(${200 + Math.random() * 55}, ${60 + Math.random() * 20}, ${60 + Math.random() * 20}, ${Math.random() * 0.5 + 0.2})` : 
           `rgba(${200 + Math.random() * 55}, ${200 + Math.random() * 55}, ${200 + Math.random() * 55}, ${Math.random() * 0.5 + 0.1})`;
@@ -103,21 +103,40 @@ const AshParticles: React.FC = () => {
           const dx = particle.x - mouseRef.current.x;
           const dy = particle.y - mouseRef.current.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          const interactionRadius = 150; // Mouse interaction radius
+          const interactionRadius = 180; // Increased mouse interaction radius
           
           if (distance < interactionRadius) {
             distanceEffect = 1 - (distance / interactionRadius);
             
-            // Increase size based on proximity to cursor
-            particle.size = particle.originalSize + (distanceEffect * 3);
+            // Increase size based on proximity to cursor (more pronounced)
+            particle.size = particle.originalSize + (distanceEffect * 5);
             
-            // Add glare/bloom effect (increase opacity temporarily)
-            ctx.shadowBlur = 15 * distanceEffect;
-            ctx.shadowColor = particle.isRed ? 'rgba(255,100,100,0.8)' : 'rgba(255,255,255,0.8)';
+            // Add glare/bloom effect (increase opacity and shadow)
+            ctx.shadowBlur = 20 * distanceEffect;
+            ctx.shadowColor = particle.isRed ? 'rgba(255,100,100,0.9)' : 'rgba(255,255,255,0.9)';
             
-            // Slightly repel from cursor (subtle movement away)
-            particle.x += (dx / distance) * distanceEffect * 0.5;
-            particle.y += (dy / distance) * distanceEffect * 0.5;
+            // More dramatic repulsion from cursor
+            particle.x += (dx / distance) * distanceEffect * 1;
+            particle.y += (dy / distance) * distanceEffect * 1;
+            
+            // Add glow effect
+            const glowRadius = particle.size * 2;
+            const gradient = ctx.createRadialGradient(
+              particle.x, particle.y, 0,
+              particle.x, particle.y, glowRadius
+            );
+            
+            const glowColor = particle.isRed ? 
+              'rgba(255,100,100,0.4)' : 
+              'rgba(255,255,255,0.3)';
+            
+            gradient.addColorStop(0, glowColor);
+            gradient.addColorStop(1, 'rgba(0,0,0,0)');
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, glowRadius, 0, Math.PI * 2);
+            ctx.fill();
           } else {
             particle.size = particle.originalSize;
             ctx.shadowBlur = 0;
