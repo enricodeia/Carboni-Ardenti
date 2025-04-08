@@ -1,7 +1,14 @@
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Star } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { gsap } from 'gsap';
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselPrevious, 
+  CarouselNext 
+} from "@/components/ui/carousel";
 
 const testimonials = [
   {
@@ -45,54 +52,117 @@ const testimonials = [
     text: "Fantastiche le carni selezionate e ottima la cottura alla brace. L'ambiente è raffinato ma accogliente. Il personale è cordiale e competente. Consigliato!",
     rating: 5,
     image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  },
+  {
+    id: 7,
+    name: "Roberto C.",
+    text: "Ho festeggiato il mio anniversario qui e non potevo scegliere meglio. Carne di ottima qualità, servizio impeccabile e un'atmosfera perfetta. Grazie!",
+    rating: 5,
+    image: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  },
+  {
+    id: 8,
+    name: "Sofia B.",
+    text: "La bistecca fiorentina è semplicemente sublime, cotta alla perfezione. Un locale che cura ogni dettaglio, dall'accoglienza ai contorni. Bravi!",
+    rating: 5,
+    image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  },
+  {
+    id: 9,
+    name: "Lorenzo M.",
+    text: "Primo posto in classifica per qualità della carne. Ho provato la Black Angus ed era eccezionale. Il personale è competente e i vini sono ottimi.",
+    rating: 5,
+    image: "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+  },
+  {
+    id: 10,
+    name: "Valentina S.",
+    text: "Esperienza indimenticabile! La carne è tenera e saporita, il servizio veloce e cortese. Tornerò sicuramente con amici e parenti!",
+    rating: 5,
+    image: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
   }
 ];
 
 const TestimonialsSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    // GSAP animations
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play none none none"
+      }
+    });
+    
+    // Title animation
+    tl.from(titleRef.current, {
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power3.out"
+    });
+  }, []);
+
   return (
-    <section className="py-24 bg-charcoal-800 relative overflow-hidden">
+    <section ref={sectionRef} className="py-24 bg-charcoal-800 relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute -top-40 -left-40 w-80 h-80 bg-[#CC4140]/5 rounded-full blur-3xl"></div>
       <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-[#CC4140]/5 rounded-full blur-3xl"></div>
       
       <div className="container relative z-10">
         <div className="text-center mb-16">
-          <h2 className="section-title mb-6 after:bg-[#CC4140] after:left-1/2 after:-translate-x-1/2">Le Opinioni dei Clienti</h2>
+          <h2 ref={titleRef} className="font-serif text-4xl md:text-5xl font-medium text-white mb-6 relative inline-block">
+            Le Opinioni dei Clienti
+            <span className="absolute -bottom-2 left-1/2 w-1/3 h-0.5 bg-[#CC4140] -translate-x-1/2"></span>
+          </h2>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((item, index) => (
-            <motion.div 
-              key={item.id} 
-              className="bg-charcoal-900 rounded-lg p-8 border border-charcoal-700 shadow-lg hover:border-[#CC4140]/50 transition-all duration-500"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full overflow-hidden mr-4 border-2 border-[#CC4140]/30">
-                  <img 
-                    src={item.image} 
-                    alt={`${item.name} avatar`} 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>
-                  <div className="font-medium text-white mb-1">{item.name}</div>
-                  <div className="flex">
-                    {Array.from({ length: item.rating }, (_, i) => (
-                      <Star key={i} size={16} className="fill-[#CC4140] text-[#CC4140]" />
-                    ))}
+        <Carousel
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-2 md:-ml-4">
+            {testimonials.map((item, index) => (
+              <CarouselItem key={item.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                <div 
+                  className="bg-charcoal-900 rounded-lg p-8 border border-charcoal-700 shadow-lg hover:border-[#CC4140]/50 transition-all duration-500 h-full"
+                >
+                  <div className="flex items-center mb-4">
+                    <div className="w-14 h-14 rounded-full overflow-hidden mr-4 border-2 border-[#CC4140]/40">
+                      <img 
+                        src={item.image} 
+                        alt={`${item.name} avatar`} 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <div className="font-medium text-white mb-1">{item.name}</div>
+                      <div className="flex">
+                        {Array.from({ length: item.rating }, (_, i) => (
+                          <Star key={i} size={16} className="fill-[#CC4140] text-[#CC4140]" />
+                        ))}
+                      </div>
+                    </div>
                   </div>
+                  <blockquote className="text-slate-300 mb-4 italic font-light">
+                    "{item.text}"
+                  </blockquote>
                 </div>
-              </div>
-              <blockquote className="text-slate-300 mb-4 italic font-light">
-                "{item.text}"
-              </blockquote>
-            </motion.div>
-          ))}
-        </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <div className="flex justify-center gap-4 mt-8">
+            <CarouselPrevious className="relative inset-auto bg-charcoal-700 hover:bg-[#CC4140] transition-colors border-none text-white w-10 h-10" />
+            <CarouselNext className="relative inset-auto bg-charcoal-700 hover:bg-[#CC4140] transition-colors border-none text-white w-10 h-10" />
+          </div>
+        </Carousel>
       </div>
     </section>
   );

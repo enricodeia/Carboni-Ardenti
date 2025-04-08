@@ -8,34 +8,37 @@ import SpecialitiesSection from '../components/SpecialitiesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import CTASection from '../components/CTASection';
 import ScrollToTop from '../components/ScrollToTop';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register ScrollTrigger
+gsap.registerPlugin(ScrollTrigger);
 
 const Index = () => {
-  // Add smooth intersection observer animations for sections
+  // Set up GSAP animations for sections
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-          }
-        });
-      },
-      {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1,
-      }
-    );
-
-    // Observe all sections with stagger-children class
-    document.querySelectorAll('.stagger-children').forEach((section) => {
-      observer.observe(section);
+    // Get all sections
+    const sections = document.querySelectorAll('section');
+    
+    // Create animations for each section
+    sections.forEach((section) => {
+      gsap.from(section, {
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none none"
+        },
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: "power3.out"
+      });
     });
 
     return () => {
-      document.querySelectorAll('.stagger-children').forEach((section) => {
-        observer.unobserve(section);
-      });
+      // Clean up ScrollTrigger instances
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, []);
 
