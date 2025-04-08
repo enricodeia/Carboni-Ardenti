@@ -48,7 +48,7 @@ const Footer = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="mr-4">Mercoledì</span>
-                  <span className="text-ember-400">Chiuso</span>
+                  <span>Chiuso</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="mr-4">Giovedì</span>
