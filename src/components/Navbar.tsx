@@ -37,7 +37,7 @@ const Navbar = () => {
   }, [location.pathname]);
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-lg ${scrolled ? 'bg-charcoal-900/95 py-8 shadow-lg' : 'bg-charcoal-900/80 py-10'}`}>
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-lg ${scrolled ? 'bg-charcoal-900/95 py-4 shadow-lg' : 'bg-charcoal-900/80 py-4'}`}>
       <div className="container flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center">

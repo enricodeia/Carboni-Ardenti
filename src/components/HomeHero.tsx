@@ -17,50 +17,12 @@ const HomeHero = () => {
   const buttonsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // GSAP animations
-    const tl = gsap.timeline();
-    
     // Background image subtle zoom
-    tl.from(imageRef.current, {
+    gsap.from(imageRef.current, {
       scale: 1.2,
       duration: 2,
       ease: "power2.out"
     });
-    
-    // Hero title animation with letter stagger
-    const titleWords = titleRef.current?.querySelectorAll('.title-word');
-    tl.from(titleWords, {
-      y: 100,
-      opacity: 0,
-      duration: 1,
-      stagger: 0.15,
-      ease: "power3.out"
-    }, "-=1.5");
-    
-    // Special text highlight animation
-    const highlights = document.querySelectorAll('.text-highlight');
-    tl.from(highlights, {
-      color: "#ffffff",
-      duration: 1.5,
-      ease: "power2.inOut"
-    }, "-=0.8");
-    
-    // Subtitle animation
-    tl.from(subtitleRef.current, {
-      y: 30,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power2.out"
-    }, "-=1");
-    
-    // Buttons animation with stagger
-    tl.from(buttonsRef.current?.children, {
-      y: 30,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.2,
-      ease: "back.out(1.7)"
-    }, "-=0.6");
 
     // Parallax effect on scroll
     const handleScroll = () => {
@@ -99,7 +61,7 @@ const HomeHero = () => {
       </div>
       
       <div className="container relative z-20">
-        <div className="max-w-3xl overflow-visible">
+        <div className="max-w-[55vw] overflow-visible">
           <div ref={titleRef} className="overflow-visible mb-6">
             <h1 className="font-serif text-[6vw] md:text-[5.5vw] lg:text-[4.5vw] font-medium text-white leading-tight tracking-wide">
               <div className="title-word overflow-hidden mb-2">
@@ -115,7 +77,7 @@ const HomeHero = () => {
             </h1>
           </div>
           
-          <p ref={subtitleRef} className="text-lg md:text-xl text-slate-200 mb-10 max-w-2xl leading-relaxed">
+          <p ref={subtitleRef} className="text-lg md:text-xl text-slate-200 mb-10 max-w-2xl">
             Le migliori carni nostrane, italiane e internazionali, cucinate alla brace e condite con i migliori ingredienti della nostra terra.
           </p>
           
@@ -124,9 +86,9 @@ const HomeHero = () => {
               <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#CC4140]/0 via-white/20 to-[#CC4140]/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
               <span className="relative z-10">Scopri il Menù</span>
             </Link>
-            <a href="tel:+393470671839" className="btn py-4 px-10 text-base flex items-center justify-center gap-2 border-2 border-[#CC4140] text-[#CC4140] rounded-md transition-all duration-300 relative overflow-hidden group hover:bg-[#CC4140]/5 transform hover:translate-y-[-3px]">
-              <span className="absolute inset-0 w-0 bg-[#CC4140]/10 group-hover:w-full transition-all duration-300 ease-out"></span>
-              <Phone size={18} className="animate-pulse relative z-10" /> 
+            <a href="tel:+393470671839" className="btn py-4 px-10 text-base flex items-center justify-center gap-2 border-2 border-black bg-black text-white rounded-md transition-all duration-300 relative overflow-hidden group hover:bg-black/90 transform hover:translate-y-[-3px]">
+              <span className="absolute inset-0 w-0 bg-white/10 group-hover:w-full transition-all duration-300 ease-out"></span>
+              <Phone size={18} className="relative z-10" /> 
               <span className="relative z-10">Prenota un Tavolo</span>
             </a>
           </div>
