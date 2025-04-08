@@ -11,7 +11,7 @@ const AboutSection = () => {
       <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#CC4140]/5 rounded-full blur-3xl"></div>
       <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#CC4140]/5 rounded-full blur-3xl"></div>
       
-      <div className="container" style={{ maxWidth: '60vw' }}>
+      <div className="container" style={{ maxWidth: '70vw' }}>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="order-2 lg:order-1 relative z-10">
             <span className="text-[#CC4140] uppercase tracking-wider font-medium mb-2 block">Dal 2010</span>
