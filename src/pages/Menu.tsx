@@ -13,7 +13,7 @@ const Menu = () => {
       
       <main className="flex-grow pt-16">
         <MenuHero />
-        <div id="menu-list">
+        <div id="menu-list" className="container max-w-[70vw] mx-auto">
           <MenuList />
         </div>
       </main>
