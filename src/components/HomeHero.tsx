@@ -66,11 +66,11 @@ const HomeHero = () => {
   };
 
   return (
-    <div className="relative h-screen min-h-[600px] flex items-center">
+    <div className="relative h-screen min-h-[600px] flex items-center overflow-hidden">
       {/* Background image with overlay */}
       <div 
         ref={imageRef}
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-90"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110"
         style={{ 
           backgroundImage: 'url(https://i.pinimg.com/736x/44/25/d6/4425d68e062d66a1f07393d7ed1fed43.jpg)'
         }}
@@ -100,10 +100,10 @@ const HomeHero = () => {
           </p>
           
           <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-4">
-            <Link to="/menu" className="btn bg-[#CC4140] hover:bg-[#CC4140]/90 text-white py-3 px-8 text-base group">
+            <Link to="/menu" className="btn bg-[#CC4140] hover:bg-[#CC4140]/90 text-white py-3 px-8 text-base font-medium rounded-md group transition-all duration-300 hover:shadow-lg hover:shadow-[#CC4140]/20">
               <span className="relative z-10">Scopri il Menù</span>
             </Link>
-            <a href="tel:+393470671839" className="btn btn-secondary py-3 px-8 text-base flex items-center justify-center gap-2 hover:scale-105 transition-transform duration-300">
+            <a href="tel:+393470671839" className="btn btn-secondary py-3 px-8 text-base flex items-center justify-center gap-2 border border-[#CC4140] text-[#CC4140] rounded-md hover:bg-[#CC4140]/10 transition-all duration-300">
               <Phone size={18} className="animate-pulse" /> Prenota un Tavolo
             </a>
           </div>
