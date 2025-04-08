@@ -2,26 +2,24 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import AboutHero from '../components/AboutHero';
-import AboutDetail from '../components/AboutDetail';
+import ContactHero from '../components/ContactHero';
+import ContactForm from '../components/ContactForm';
 import CTASection from '../components/CTASection';
-import ScrollToTop from '../components/ScrollToTop';
 
-const About = () => {
+const Contact = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-grow pt-16">
-        <AboutHero />
-        <AboutDetail />
+        <ContactHero />
+        <ContactForm />
         <CTASection />
       </main>
       
       <Footer />
-      <ScrollToTop />
     </div>
   );
 };
 
-export default About;
+export default Contact;

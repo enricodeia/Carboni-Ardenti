@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import MenuHero from '../components/MenuHero';
 import MenuList from '../components/MenuList';
 import CTASection from '../components/CTASection';
+import ScrollToTop from '../components/ScrollToTop';
 
 const Menu = () => {
   return (
@@ -18,6 +19,7 @@ const Menu = () => {
       </main>
       
       <Footer />
+      <ScrollToTop />
     </div>
   );
 };
