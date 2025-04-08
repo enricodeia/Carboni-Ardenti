@@ -74,15 +74,13 @@ const SpecialitiesSection = () => {
     <section ref={sectionRef} className="py-24 bg-charcoal-900 relative">
       {/* Decorative elements */}
       <div className="absolute top-0 right-0 w-full h-40 bg-gradient-to-b from-charcoal-800 to-transparent"></div>
-      <div className="absolute -top-20 -left-20 w-60 h-60 bg-ember-500/5 rounded-full blur-3xl"></div>
-      <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-ember-500/5 rounded-full blur-3xl"></div>
+      <div className="absolute -top-20 -left-20 w-60 h-60 bg-[#CC4140]/5 rounded-full blur-3xl"></div>
+      <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-[#CC4140]/5 rounded-full blur-3xl"></div>
       
       <div className="container relative z-10">
         <div className="text-center mb-16" ref={titleRef}>
           <div className="stagger-children">
-            <span className="inline-block text-ember-400 font-serif text-lg mb-2">Il Meglio delle Nostre</span>
-            <h2 className="section-title mb-2 after:left-1/2 after:-translate-x-1/2">Le Nostre Specialità</h2>
-            <p className="section-subtitle">Solo il meglio per i nostri clienti</p>
+            <h2 className="section-title mb-2 after:bg-[#CC4140] after:left-1/2 after:-translate-x-1/2">Le Nostre Specialità</h2>
           </div>
         </div>
         
@@ -90,7 +88,7 @@ const SpecialitiesSection = () => {
           {specialities.map((item, index) => (
             <motion.div 
               key={item.id} 
-              className="group bg-charcoal-800 rounded-lg overflow-hidden shadow-xl border border-charcoal-700 hover:border-ember-500/50 transition-all duration-500"
+              className="group bg-charcoal-800 rounded-lg overflow-hidden shadow-xl border border-charcoal-700 hover:border-[#CC4140]/50 transition-all duration-500"
               initial="offscreen"
               whileInView="onscreen"
               viewport={{ once: true, amount: 0.3 }}
@@ -105,13 +103,13 @@ const SpecialitiesSection = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal-900 to-transparent opacity-60"></div>
                 <div className="absolute inset-x-0 bottom-0 p-4">
-                  <h3 className="font-serif text-2xl text-white mb-1 group-hover:text-ember-400 transition-colors">{item.name}</h3>
+                  <h3 className="font-serif text-2xl text-white mb-1 group-hover:text-[#CC4140] transition-colors">{item.name}</h3>
                 </div>
               </div>
               
               <div className="p-6">
                 <p className="text-slate-300 mb-4">{item.description}</p>
-                <Link to="/menu" className="text-ember-400 hover:text-ember-500 flex items-center gap-2 transition-all group-hover:gap-3">
+                <Link to="/menu" className="text-[#CC4140] hover:text-[#b33937] flex items-center gap-2 transition-all group-hover:gap-3">
                   Scopri di più <ArrowRight size={16} />
                 </Link>
               </div>
